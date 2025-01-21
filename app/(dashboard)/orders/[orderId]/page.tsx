@@ -19,7 +19,7 @@ const OrderPage = async ({ params }: { params: { orderId: string } }) => {
 
   return (
     <div className="space-y-6">
-      <HeaderSection order={order} />
+      <HeaderSection order={order!} />
 
       <div className="grid gap-6 md:grid-cols-2">
         <ClientInfo order={order} />
