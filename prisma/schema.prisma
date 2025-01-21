@@ -1,0 +1,227 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Order {
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  packagetype String
+  price       Float
+  deposite    Float?
+  total       Boolean? @default(false)
+  description String
+  title       String
+  startTime   String
+  companyName String
+  fullName    String
+  email       String
+  phoneNumber String
+  extras      String[]
+  status      String?  @default("received")
+
+  Milestones Milestone[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Extar {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  name  String @unique
+  price Float?
+}
+
+model Attachment {
+  id   String @id @default(auto()) @map("_id") @db.ObjectId
+  name String
+  url  String
+}
+
+model Milestone {
+  id      String    @id @default(auto()) @map("_id") @db.ObjectId
+  title   String
+  status  String?   @default("pending")
+  dueDate DateTime?
+
+  orderId                 String?                @db.ObjectId
+  Order                   Order?                 @relation(fields: [orderId], references: [id])
+  WebDevelopmentService   WebDevelopmentService? @relation(fields: [webDevelopmentServiceId], references: [id])
+  webDevelopmentServiceId String?                @db.ObjectId
+  webDesignService        webDesignService?      @relation(fields: [webDesignServiceId], references: [id])
+  webDesignServiceId      String?                @db.ObjectId
+  EcommerceService        EcommerceService?      @relation(fields: [ecommerceServiceId], references: [id])
+  ecommerceServiceId      String?                @db.ObjectId
+  CMSService              CMSService?            @relation(fields: [cMSServiceId], references: [id])
+  cMSServiceId            String?                @db.ObjectId
+  MobileAppService        MobileAppService?      @relation(fields: [mobileAppServiceId], references: [id])
+  mobileAppServiceId      String?                @db.ObjectId
+  MaintenanceService      MaintenanceService?    @relation(fields: [maintenanceServiceId], references: [id])
+  maintenanceServiceId    String?                @db.ObjectId
+}
+
+model Message {
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  fullName    String
+  email       String
+  phoneNumber String
+  subject     String
+  inquiry     String
+  reply       String?
+  status      String? @default("unread")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model WebDevelopmentService {
+  id                    String   @id @default(auto()) @map("_id") @db.ObjectId
+  projectType           String
+  budgetRange           String
+  deposite              Float?
+  total                 Boolean? @default(false)
+  requirements          String
+  additionalInformation String?
+  timeline              String
+  companyName           String
+  fullName              String
+  email                 String
+  phoneNumber           String
+  stack                 String
+  requiredFeatures      String[]
+  status                String?  @default("received")
+
+  Milestones Milestone[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model webDesignService {
+  id                    String   @id @default(auto()) @map("_id") @db.ObjectId
+  projectType           String   @default("Web Design ")
+  designStyle           String
+  budgetRange           String
+  deposite              Float?
+  total                 Boolean? @default(false)
+  inspiration           String
+  additionalInformation String?
+  timeline              String
+  companyName           String
+  fullName              String
+  email                 String
+  phoneNumber           String
+  color                 String
+  pages                 String
+  status                String?  @default("received")
+
+  Milestones Milestone[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model EcommerceService {
+  id                    String   @id @default(auto()) @map("_id") @db.ObjectId
+  projectType           String   @default("E-commerce")
+  platform              String
+  numberOfProducts      String
+  requiredFeatures      String[]
+  requirements          String
+  businessType          String
+  budgetRange           String
+  deposite              Float?
+  total                 Boolean? @default(false)
+  additionalInformation String?
+  timeline              String
+  companyName           String
+  currentWebsite        String?
+  fullName              String
+  email                 String
+  phoneNumber           String
+  status                String?  @default("received")
+
+  Milestones Milestone[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model CMSService {
+  id                    String   @id @default(auto()) @map("_id") @db.ObjectId
+  projectType           String   @default("CMS")
+  cmsType               String
+  numberOfusers         String
+  requiredFeatures      String[]
+  requirements          String
+  budgetRange           String
+  deposite              Float?
+  total                 Boolean? @default(false)
+  additionalInformation String?
+  timeline              String
+  companyName           String
+  currentWebsite        String?
+  fullName              String
+  email                 String
+  phoneNumber           String
+  status                String?  @default("received")
+
+  Milestones Milestone[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model MobileAppService {
+  id                    String   @id @default(auto()) @map("_id") @db.ObjectId
+  projectType           String   @default("Mobile App")
+  appType               String
+  platform              String
+  requiredFeatures      String[]
+  designRequirements    String
+  description           String
+  budgetRange           String
+  deposite              Float?
+  total                 Boolean? @default(false)
+  additionalInformation String?
+  timeline              String
+  companyName           String
+  currentWebsite        String?
+  fullName              String
+  email                 String
+  phoneNumber           String
+  status                String?  @default("received")
+
+  Milestones Milestone[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model MaintenanceService {
+  id                    String   @id @default(auto()) @map("_id") @db.ObjectId
+  projectType           String   @default("maintenance")
+  currentIssues         String
+  platform              String
+  selectedPlan          String
+  requiredServices      String[]
+  updateFrequency       String
+  price                 String
+  supportLevel          String
+  monthlyTraffic        String
+  additionalInformation String?
+  companyName           String
+  currentWebsite        String?
+  fullName              String
+  email                 String
+  phoneNumber           String
+  status                String?  @default("received")
+
+  Milestones Milestone[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
